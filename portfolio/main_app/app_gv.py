@@ -1,0 +1,1 @@
+DATAMODE=(('D', 'Deleted'), ('I', 'Inactive'), ('A', 'Active'))
