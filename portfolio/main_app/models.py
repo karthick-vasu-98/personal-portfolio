@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from . import app_gv as gv
+from django.contrib.auth.models import User
 
 
 class SkillCategory(models.Model):
@@ -31,7 +32,10 @@ class Profile(models.Model):
     email = models.EmailField(null=False, blank=False)
     linkedin_url = models.URLField(null=False, blank=False)
     github_url = models.URLField(null=True, blank=True)
+    personal_website_url = models.URLField(null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
     profile_summary = models.TextField(null=False, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     datamode = models.CharField(max_length=12, null=True, blank=True, choices=gv.DATAMODE, default='A')
@@ -143,3 +147,20 @@ class ExperienceResponsibilities(models.Model):
     
     class Meta:
         db_table = 'experience_responsibilities'
+
+
+class CreatedResume(models.Model):
+    profile = models.CharField(max_length=255, null=False, blank=False)
+    resume = models.URLField(null=True, blank=True)
+    resume_count = models.IntegerField(default=0)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    datamode = models.CharField(max_length=12, null=True, blank=True, choices=gv.DATAMODE, default='A')
+
+    def __self__(self):
+        return "{0}".format(self.profile)
+    
+    class Meta:
+        db_table = 'created_resume'
+
+
